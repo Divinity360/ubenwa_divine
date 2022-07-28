@@ -5,6 +5,7 @@ import 'package:ubenwa/models/newborns.dart';
 import 'package:ubenwa/providers/newborn_provider.dart';
 import 'package:ubenwa/widgets/app_loader.dart';
 import 'package:ubenwa/widgets/newborn_card.dart';
+import 'package:ubenwa/widgets/newborn_listview.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -38,13 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(top: 90, bottom: 20),
                 child: Text('Test App', style: _textTheme.headline1),
               ),
-              Switch(
-                value: true,
-                onChanged: (value) {
-                  // setState(() {
-                  //   _switchValue = value;
-                  // });
-                },
+              Text('Background service toggle', style: _textTheme.subtitle1),
+              Consumer<NewBornProvider>(
+                builder: (context, newbornProvider, child) => Switch(
+                  value: newbornProvider.isBkgServiceActive,
+                  onChanged: newbornProvider.toggleBkgService,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -52,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context, newbornProvider, child) {
                     if (newbornProvider.loading) {
                       return const AppLoader();
-                    } else if (newbornProvider.newBornList != null) {
+                    } else if (newbornProvider.newBornList != null &&
+                        newbornProvider.newBornList!.isNotEmpty) {
                       return NewbornListView(
                           newbornList: newbornProvider.newBornList);
                     }
@@ -66,22 +67,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-}
-
-class NewbornListView extends StatelessWidget {
-  final List<NewBorn>? newbornList;
-
-  const NewbornListView({Key? key, required this.newbornList})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: newbornList!.length * 200, child: ListView.builder(
-        itemCount: newbornList!.length,
-        itemBuilder: (context, i) {
-          return NewBornCard(newBorn: newbornList!.elementAt(i));
-        },
-      ),);
   }
 }

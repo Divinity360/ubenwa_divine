@@ -11,7 +11,7 @@ import 'package:ubenwa/utils/theme.dart';
 GlobalKey<NavigatorState> navigationKeyState = GlobalKey<NavigatorState>();
 
 /// Top level background callback function
-void callbackDispatcher() => BackgroundService.executeBackgroundTask();
+void callbackDispatcher() => BackgroundService.processBackgroundTask();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
