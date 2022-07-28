@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:ubenwa/utils/colors.dart';
+import 'package:ubenwa/widgets/app_loader.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
@@ -19,14 +20,7 @@ class PrimaryButton extends StatelessWidget {
     final _appTheme = Theme.of(context);
     final _textTheme = _appTheme.textTheme;
     return loading
-        ? SizedBox(
-            width: 16,
-            height: 16,
-            child: Center(
-              child: CircularProgressIndicator(
-                  backgroundColor: AppColors.primaryColor),
-            ),
-          )
+        ? const AppLoader()
         : InkWell(
             child: Container(
               padding: const EdgeInsets.only(top: 9),

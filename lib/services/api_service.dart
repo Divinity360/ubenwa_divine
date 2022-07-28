@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ubenwa/models/newborns.dart';
 import 'package:ubenwa/models/signup_response.dart';
 import 'package:ubenwa/utils/helper.dart';
 
@@ -31,6 +32,17 @@ class ApiService {
     return null;
   }
 
+  static Future<List<NewBorn>?>? getAllNewBorn(String authToken) async {
+    var response = await http.get(Uri.parse('$baseUrl/newborns'),
+        headers: _getHttpHeader(authToken));
+    log(response.body);
+    if (response.statusCode == HttpStatus.ok) {
+      final dataList = json.decode(response.body)["data"];
+      return dataList.map<NewBorn>((item) => NewBorn.fromJson(item)).toList();
+    }
+    return [];
+  }
+
   static Future<SignUpResponse?>? login(
       {required String email, required String password}) async {
     var params = {"email": email, "password": password};
@@ -55,11 +67,16 @@ class ApiService {
       }
     };
     var response = await http.post(Uri.parse('$baseUrl/newborns'),
-        headers: _getHttpHeader(authToken), body: json.encode(params));
+        headers: _getVndApiHttpHeader(authToken), body: json.encode(params));
     log(response.body);
     return null;
   }
 
   static Map<String, String> _getHttpHeader(String token) =>
       {'Authorization': 'Bearer $token'};
+
+  static Map<String, String> _getVndApiHttpHeader(String token) => {
+        "Content-Type": "application/vnd.api+json",
+        'Authorization': 'Bearer $token'
+      };
 }

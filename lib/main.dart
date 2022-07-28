@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ubenwa/providers/auth_provider.dart';
+import 'package:ubenwa/providers/newborn_provider.dart';
 import 'package:ubenwa/providers/splash_provider.dart';
 import 'package:ubenwa/services/background_service.dart';
 import 'package:ubenwa/utils/routes.dart';
@@ -21,6 +22,9 @@ void main() {
     ),
     ChangeNotifierProvider<AuthProvider>(
       create: (context) => AuthProvider(),
+    ),
+    ChangeNotifierProvider<NewBornProvider>(
+      create: (context) => NewBornProvider(),
     ),
   ], child: const MyApp()));
 }
