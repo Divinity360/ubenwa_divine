@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ubenwa/providers/auth_provider.dart';
 import 'package:ubenwa/utils/routes.dart';
 import 'package:ubenwa/utils/validation.dart';
 import 'package:ubenwa/widgets/form_field_container.dart';
@@ -6,8 +8,11 @@ import 'package:ubenwa/widgets/primary_button.dart';
 import 'package:ubenwa/widgets/primary_textfield.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-  static final _loginFormKey = GlobalKey<FormState>();
+  LoginScreen({Key? key}) : super(key: key);
+  final _loginFormKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passWordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final _appTheme = Theme.of(context);
@@ -27,6 +32,7 @@ class LoginScreen extends StatelessWidget {
               ),
               FormFieldContainer(
                   child: Form(
+                autovalidateMode: AutovalidateMode.always,
                 key: _loginFormKey,
                 child: Column(
                   children: [
@@ -38,16 +44,18 @@ class LoginScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
                           children: [
-                            const PrimaryTextField(
+                            PrimaryTextField(
                               labelText: 'Email',
                               validator: AppValidation.validateEmail,
+                              controller: _emailController,
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
                               child: PrimaryTextField(
                                 labelText: 'Password',
                                 isPasswordField: true,
                                 validator: AppValidation.validatePassword,
+                                controller: _passWordController,
                               ),
                             ),
                             Container(
@@ -58,13 +66,19 @@ class LoginScreen extends StatelessWidget {
                               child: Text('forgot password?',
                                   style: _textTheme.subtitle2),
                             ),
-                            PrimaryButton(
-                              labelText: 'Login',
-                              onTap: () {
-                                if (_loginFormKey.currentState!.validate()) {
-
-                                }
-                              },
+                            Consumer<AuthProvider>(
+                              builder: (context, authProvider, child) =>
+                                  PrimaryButton(
+                                labelText: 'Login',
+                                loading: authProvider.loading,
+                                onTap: () {
+                                  if (_loginFormKey.currentState!.validate()) {
+                                    authProvider.login(
+                                        email: _emailController.text,
+                                        password: _passWordController.text);
+                                  }
+                                },
+                              ),
                             ),
                             Padding(
                                 padding:

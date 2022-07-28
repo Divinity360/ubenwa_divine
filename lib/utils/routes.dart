@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ubenwa/screens/authentication/login.dart';
 import 'package:ubenwa/screens/authentication/sign_up.dart';
+import 'package:ubenwa/screens/home/home.dart';
 import 'package:ubenwa/screens/splash/splashscreen.dart';
 
 class AppRoutes {
@@ -10,14 +11,19 @@ class AppRoutes {
   static const String login = '/login';
   static const String signup = '/signup';
 
+  // homepage
+  static const String home = '/home';
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
         return _getRoute(const Splashscreen());
       case login:
-        return _getRoute(const LoginScreen());
+        return _getRoute(LoginScreen());
       case signup:
-        return _getRoute(const SignUpScreen());
+        return _getRoute(SignUpScreen());
+      case home:
+        return _getRoute(HomeScreen());
       default:
         return _getRoute(const Splashscreen());
     }

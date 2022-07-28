@@ -9,17 +9,17 @@ import 'package:ubenwa/widgets/primary_button.dart';
 import 'package:ubenwa/widgets/primary_textfield.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
-  static final _signupFormKey = GlobalKey<FormState>();
+  SignUpScreen({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passWordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final _appTheme = Theme.of(context);
     final _mediaQuery = MediaQuery.of(context);
     final _textTheme = _appTheme.textTheme;
-    final _nameController = TextEditingController();
-    final _emailController = TextEditingController();
-    final _passWordController = TextEditingController();
     return Scaffold(
       backgroundColor: _appTheme.backgroundColor,
       body: SingleChildScrollView(
@@ -33,6 +33,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               FormFieldContainer(
                   child: Form(
+                autovalidateMode: AutovalidateMode.always,
                 key: _signupFormKey,
                 child: Column(
                   children: [
@@ -46,7 +47,7 @@ class SignUpScreen extends StatelessWidget {
                           children: [
                             PrimaryTextField(
                               labelText: 'Name',
-                              controller: _emailController,
+                              controller: _nameController,
                               validator: AppValidation.validateEmptyField,
                             ),
                             Padding(
@@ -99,7 +100,8 @@ class SignUpScreen extends StatelessWidget {
                                             .validate()) {
                                           authProvider.register(
                                               email: _emailController.text,
-                                              password: _passWordController.text,
+                                              password:
+                                                  _passWordController.text,
                                               name: _nameController.text);
                                         }
                                       },
