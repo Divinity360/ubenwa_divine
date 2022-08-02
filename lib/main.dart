@@ -1,30 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ubenwa/providers/auth_provider.dart';
-import 'package:ubenwa/providers/newborn_provider.dart';
-import 'package:ubenwa/providers/splash_provider.dart';
-import 'package:ubenwa/services/background_service.dart';
+import 'package:ubenwa/providers/pet_provider.dart';
 import 'package:ubenwa/utils/routes.dart';
 import 'package:ubenwa/utils/theme.dart';
 
 /// Global navigator state
 GlobalKey<NavigatorState> navigationKeyState = GlobalKey<NavigatorState>();
 
-/// Top level background callback function
-void callbackDispatcher() => BackgroundService.processBackgroundTask();
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  BackgroundService.setupWorkManager(callbackDispatcher);
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<SplashProvider>(
-      create: (context) => SplashProvider(),
-    ),
-    ChangeNotifierProvider<AuthProvider>(
-      create: (context) => AuthProvider(),
-    ),
-    ChangeNotifierProvider<NewBornProvider>(
-      create: (context) => NewBornProvider(),
+    ChangeNotifierProvider<PetProvider>(
+      create: (context) => PetProvider(),
     ),
   ], child: const MyApp()));
 }
@@ -35,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Ubenwa Test',
+        title: 'Figozo Test',
         theme: lightTheme,
         navigatorKey: navigationKeyState,
         onGenerateRoute: AppRoutes.generateRoute);
