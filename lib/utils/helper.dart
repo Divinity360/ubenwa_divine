@@ -12,7 +12,4 @@ class AppHelpers {
       content: Text(message),
     ));
   }
-
-  static String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length))));
 }

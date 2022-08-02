@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Figozo Test',
-        theme: lightTheme,
+        theme: lightTheme(context),
         navigatorKey: navigationKeyState,
         onGenerateRoute: AppRoutes.generateRoute);
   }
